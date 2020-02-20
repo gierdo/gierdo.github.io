@@ -20,9 +20,13 @@ intended. Assuming your kernel has hid-apple built as a module:
 
 Create a conf file at `/etc/modprobe.d/hid-apple.conf`:
 
-```bash options hid_apple fnmode=2 ```
+```bash
+options hid_apple fnmode=2
+```
 
 Reload the hid_apple module or reboot, and your're done.
 
 
-```bash sudo rmmod hid_apple sudo modprobe hid_apple ```
+```bash
+sudo rmmod hid_apple sudo modprobe hid_apple
+```
