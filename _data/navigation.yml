@@ -6,8 +6,6 @@ main:
     url: "/categories/"
   - title: "Posts by Date"
     url: "/year-archive/"
-  - title: "View on GitHub"
-    url: https://github.com/gierdo/gierdo.github.io
   - title: "dotfiles"
     url: https://github.com/gierdo/dotfiles
   # - title: "About"
