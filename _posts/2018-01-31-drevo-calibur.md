@@ -1,5 +1,9 @@
 ---
 title: The drevo calibur 71-key BT keyboard with linux
+categories:
+  - linux
+tags:
+  - obsolete
 ---
 
 I bought a drevo calibur, a nice 71-key (60%) bluetooth-capable keyboard with
@@ -25,7 +29,6 @@ options hid_apple fnmode=2
 ```
 
 Reload the hid_apple module or reboot, and your're done.
-
 
 ```bash
 sudo rmmod hid_apple sudo modprobe hid_apple

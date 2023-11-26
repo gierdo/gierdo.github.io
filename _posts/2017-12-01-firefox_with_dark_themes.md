@@ -1,5 +1,7 @@
 ---
 title: Firefox (Quantum) with dark GTK themes
+tags:
+  - obsolete
 ---
 
 ## The Problem
@@ -7,8 +9,8 @@ title: Firefox (Quantum) with dark GTK themes
 Having dark GTK themes active results in Firefox (Quantum) rendering forms and
 other stuff unreadable.
 
-
 ## The Solution
+
 Replace the css for all relevant elements!
 
 Create a file `~/.mozilla/firefox/blergbaz.default/chrome/userContent.css` with the following content:
@@ -20,9 +22,8 @@ button,
 input:not([type="checkbox"]):not([type="radio"]),
 select,
 textarea {
-	-moz-appearance: none !important;
-	background-color: white;
-	color: black;
+  -moz-appearance: none !important;
+  background-color: white;
+  color: black;
 }
 ```
-

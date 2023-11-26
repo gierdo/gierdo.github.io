@@ -1,5 +1,9 @@
 # main links
 main:
+  - title: "Posts by tags"
+    url: "/tags/"
+  - title: "Posts by category"
+    url: "/categories/"
   - title: "View on GitHub"
     url: https://github.com/gierdo/gierdo.github.io
   - title: "dotfiles"
