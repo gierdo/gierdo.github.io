@@ -1,3 +1,5 @@
+title: gierdo's blog
+description: Software is weird.
 theme: jekyll-theme-slate
 permalink: /blog/:year/:month/:day/:title
 plugins:
