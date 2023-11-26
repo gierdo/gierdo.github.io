@@ -1,4 +1,5 @@
 theme: jekyll-theme-slate
 permalink: /blog/:year/:month/:day/:title
 plugins:
+  - jekyll-sitemap
   - jekyll-seo-tag
