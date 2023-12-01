@@ -185,22 +185,21 @@ My configuration is structured like this:
 
 ```text
 ~/.dotfiles/.config/nvim/..
-  lua
-    config_d
-       basic_behavior.lua
-       filetypes.vim
-       init.lua
-    plugins
-       ale.lua
-       coc.lua
-       init.lua
-       neoai.lua
-       nvim-tree.lua
-       telescope.lua
-       theme.lua
-     utils.lua
-   coc-settings.json
-   init.lua
+ - lua
+   - config_d
+      - basic_behavior.lua
+      - filetypes.vim
+      - init.lua
+   - plugins
+      - ale.lua
+      - coc.lua
+      - init.lua
+      - neoai.lua
+      - nvim-tree.lua
+      - telescope.lua
+      - theme.lua
+    - utils.lua
+  - init.lua
 ```
 
 The definition of all installed plugins and their configuration happens in the
