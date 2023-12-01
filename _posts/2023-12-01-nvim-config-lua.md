@@ -185,12 +185,12 @@ My configuration is structured like this:
 
 ```text
 ~/.dotfiles/.config/nvim/..
- - lua
-   - config_d
++ - lua
+  + - config_d
       - basic_behavior.lua
       - filetypes.vim
       - init.lua
-   - plugins
+  + - plugins
       - ale.lua
       - coc.lua
       - init.lua
