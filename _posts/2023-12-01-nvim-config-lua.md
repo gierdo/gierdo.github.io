@@ -79,13 +79,13 @@ local exports = {}
 
 
 local function script_path()
-	local str = debug.getinfo(2, "S").source:sub(2)
-	return str:match("(.*/)")
+  local str = debug.getinfo(2, "S").source:sub(2)
+  return str:match("(.*/)")
 end
 
 function exports.load_local_vimscript(script_name)
-	local module_directory = script_path()
-	vim.cmd('source ' .. module_directory .. script_name)
+  local module_directory = script_path()
+  vim.cmd('source ' .. module_directory .. script_name)
 end
 
 return exports
@@ -97,14 +97,14 @@ To be used like this:
 local utils = require('utils')
 
 return {
-	{
-		'altercation/vim-colors-solarized',
-		config = function()
-			utils.load_local_vimscript("plugins/theme.vim")
-		end,
-		lazy = false,
-		priority = 1000
-	},
+  {
+    'altercation/vim-colors-solarized',
+    config = function()
+      utils.load_local_vimscript("plugins/theme.vim")
+    end,
+    lazy = false,
+    priority = 1000
+  },
         .
         .
         .
@@ -125,35 +125,35 @@ local module_filename = string.match(info.source, '/([^/]*)$')
 local module_name = ... or "init.d"
 
 local function scandir(directory)
-	local i, t, popen = 0, {}, io.popen
-	local pfile = popen('ls -a "' .. directory .. '"')
-	for filename in pfile:lines() do
-		i = i + 1
-		t[i] = filename
-	end
-	pfile:close()
-	return t
+  local i, t, popen = 0, {}, io.popen
+  local pfile = popen('ls -a "' .. directory .. '"')
+  for filename in pfile:lines() do
+    i = i + 1
+    t[i] = filename
+  end
+  pfile:close()
+  return t
 end
 
 local lua_config_files = vim.tbl_filter(function(filename)
-	local is_lua_module = string.match(filename, "[.]lua$")
-	local is_this_file = filename == module_filename
-	return is_lua_module and not is_this_file
+  local is_lua_module = string.match(filename, "[.]lua$")
+  local is_this_file = filename == module_filename
+  return is_lua_module and not is_this_file
 end, scandir(module_directory))
 
 for i, filename in ipairs(lua_config_files) do
-	local config_module = string.match(filename, "(.+).lua$")
-	require(module_name .. "." .. config_module)
+  local config_module = string.match(filename, "(.+).lua$")
+  require(module_name .. "." .. config_module)
 end
 
 local vimscript_config_files = vim.tbl_filter(function(filename)
-	local is_config = string.match(filename, "[.]vim$")
-	local is_this_file = filename == module_filename
-	return is_config and not is_this_file
+  local is_config = string.match(filename, "[.]vim$")
+  local is_this_file = filename == module_filename
+  return is_config and not is_this_file
 end, scandir(module_directory))
 
 for i, filename in ipairs(vimscript_config_files) do
-	vim.cmd("source " .. module_directory .. "/" .. filename)
+  vim.cmd("source " .. module_directory .. "/" .. filename)
 end
 ```
 
@@ -217,63 +217,63 @@ Example config excerpt for `nvim-tree`:
 
 ```lua
 local function open_nvim_tree(data)
-	local api = require("nvim-tree.api")
-	-- buffer is a real file on the disk
-	local real_file = vim.fn.filereadable(data.file) == 1
+  local api = require("nvim-tree.api")
+  -- buffer is a real file on the disk
+  local real_file = vim.fn.filereadable(data.file) == 1
 
-	if real_file then
-		return
-	end
+  if real_file then
+    return
+  end
 
-	-- buffer is a [No Name]
-	local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
+  -- buffer is a [No Name]
+  local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
 
-	if not real_file and not no_name then
-		return
-	end
-	api.tree.toggle({ focus = false, find_file = false, })
+  if not real_file and not no_name then
+    return
+  end
+  api.tree.toggle({ focus = false, find_file = false, })
 end
 
 return {
-	{
-		'nvim-tree/nvim-tree.lua',
-		priority = 1,
-		lazy = false,
-		dependencies = {
-			'nvim-tree/nvim-web-devicons',
-		},
-		init = function()
-			vim.g.loaded_netrw = 1
-			vim.g.loaded_netrwPlugin = 1
-		end,
-		config = function()
-			local tree = require("nvim-tree")
-			tree.setup(
-				{
-					on_attach = my_on_attach,
-					update_focused_file = {
-						enable = false,
-					},
-					filters = {
-						dotfiles = true,
-						exclude = { ".config", ".local" },
-					},
-				}
-			)
+  {
+    'nvim-tree/nvim-tree.lua',
+    priority = 1,
+    lazy = false,
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
+    init = function()
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+    end,
+    config = function()
+      local tree = require("nvim-tree")
+      tree.setup(
+        {
+          on_attach = my_on_attach,
+          update_focused_file = {
+            enable = false,
+          },
+          filters = {
+            dotfiles = true,
+            exclude = { ".config", ".local" },
+          },
+        }
+      )
 
-			vim.api.nvim_create_autocmd("WinClosed", {
-				callback = function()
-					local winnr = tonumber(vim.fn.expand("<amatch>"))
-					vim.schedule_wrap(tab_win_closed(winnr))
-				end,
-				nested = true
-			})
-			vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
-			vim.keymap.set('n', '<C-n>', '<cmd>NvimTreeToggle<cr>')
-			vim.keymap.set('n', '<A-n>', '<cmd>NvimTreeFindFile<cr>')
-		end
-	},
-	'nvim-tree/nvim-web-devicons',
+      vim.api.nvim_create_autocmd("WinClosed", {
+        callback = function()
+          local winnr = tonumber(vim.fn.expand("<amatch>"))
+          vim.schedule_wrap(tab_win_closed(winnr))
+        end,
+        nested = true
+      })
+      vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+      vim.keymap.set('n', '<C-n>', '<cmd>NvimTreeToggle<cr>')
+      vim.keymap.set('n', '<A-n>', '<cmd>NvimTreeFindFile<cr>')
+    end
+  },
+  'nvim-tree/nvim-web-devicons',
 }
 ```
 
