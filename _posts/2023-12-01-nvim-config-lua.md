@@ -70,8 +70,9 @@ the kind "Can _I_ do this in lua? Should I do this in lua? Do I want to do this
 in lua?", and I also had to figure out if what I wanted to do was actually
 _possible_ in lua.
 
-I ended up adding support for sourcing vimscript "modules" from my lua modules
-instead of cluttering `vim.cmd()` through my lua code.
+I ended up adding support for sourcing vimscript "modules" from my lua modules,
+but also grouping vimscript execution in lua modules. I haven't made up my mind
+yet what I prefer.
 
 ```lua
 local exports = {}
@@ -166,11 +167,116 @@ verbose. It's a DSL for vim configuration, after all..
 I decided to try out [Lazy](https://github.com/folke/lazy.nvim) for my plugin
 management, and it's pretty awesome!
 
+_Why is this significant?_
+
+Most of the functional magic of vim happens in plugins, and that's also where
+most of the magic of the orchestration and configuration happens.
+And Lazy is a lua-centric plugin manager with great features.
+
 The main things that stand out for me are
 
 - Self-contained, modular definition of plugin installation and configuration
 - Definition of explicit plugin dependencies with lazy loading
 - Easy bootstrapping
+
+#### Modular plugin installation and configuration
+
+My configuration is structured like this:
+
+```text
+~/.dotfiles/.config/nvim/..
+  lua
+    config_d
+       basic_behavior.lua
+       filetypes.vim
+       init.lua
+    plugins
+       ale.lua
+       coc.lua
+       init.lua
+       neoai.lua
+       nvim-tree.lua
+       telescope.lua
+       theme.lua
+     utils.lua
+   coc-settings.json
+   init.lua
+```
+
+The definition of all installed plugins and their configuration happens in the
+`plugins` directory, and the single lua files are completely self-contained.
+They contain the installation specification and complete configuration of
+plugins with all their dependencies, defined explicitly. Plugins can be added
+or removed without remaining artifacts, everything is easy to maintain, extend
+and clean up. And `Lazy` loads and orchestrates everything on its own.
+
+The Grouping, btw, is not definitive. I kind of group larger plugins with a
+more complex configuration and complex dependencies in their own module,
+trivial stuff is defined in `plugins/init.lua`
+
+Example config excerpt for `nvim-tree`:
+
+```lua
+local function open_nvim_tree(data)
+	local api = require("nvim-tree.api")
+	-- buffer is a real file on the disk
+	local real_file = vim.fn.filereadable(data.file) == 1
+
+	if real_file then
+		return
+	end
+
+	-- buffer is a [No Name]
+	local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
+
+	if not real_file and not no_name then
+		return
+	end
+	api.tree.toggle({ focus = false, find_file = false, })
+end
+
+return {
+	{
+		'nvim-tree/nvim-tree.lua',
+		priority = 1,
+		lazy = false,
+		dependencies = {
+			'nvim-tree/nvim-web-devicons',
+		},
+		init = function()
+			vim.g.loaded_netrw = 1
+			vim.g.loaded_netrwPlugin = 1
+		end,
+		config = function()
+			local tree = require("nvim-tree")
+			tree.setup(
+				{
+					on_attach = my_on_attach,
+					update_focused_file = {
+						enable = false,
+					},
+					filters = {
+						dotfiles = true,
+						exclude = { ".config", ".local" },
+					},
+				}
+			)
+
+			vim.api.nvim_create_autocmd("WinClosed", {
+				callback = function()
+					local winnr = tonumber(vim.fn.expand("<amatch>"))
+					vim.schedule_wrap(tab_win_closed(winnr))
+				end,
+				nested = true
+			})
+			vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+			vim.keymap.set('n', '<C-n>', '<cmd>NvimTreeToggle<cr>')
+			vim.keymap.set('n', '<A-n>', '<cmd>NvimTreeFindFile<cr>')
+		end
+	},
+	'nvim-tree/nvim-web-devicons',
+}
+```
 
 ## tl;dr
 
