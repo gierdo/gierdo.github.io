@@ -5,7 +5,6 @@ categories:
   - linux
 tags:
   - vim
-  - ai
 ---
 
 # Migrating a vimscript configuration to lua
