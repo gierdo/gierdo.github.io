@@ -40,7 +40,7 @@ old config and extended it from there.
 Which meant that
 
 - The configuration was all over the place
-- Plugin configuration was decoupled from plugin configuration
+- Plugin installation was decoupled from plugin configuration
 - Complicated logic was a mess
 - Startup time was not ideal (While it was absolutely acceptable for me)
 
