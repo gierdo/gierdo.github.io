@@ -107,7 +107,7 @@ analytics:
 # Site Author
 author:
   name             : "Dominikus Gierlach"
-  avatar           : "/assets/images/avatar_me.png" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/assets/images/avatar-me.png" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Aerospace engineer - turned software engineer"
   location         : "Munich, Germany"
   email            :
