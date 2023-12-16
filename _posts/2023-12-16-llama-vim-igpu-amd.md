@@ -259,7 +259,7 @@ article, but I don't expect overwhelming results.
    2.70G / 2.70G Shader Clock 100.00%
 ```
 
-Here's a nice little detail:
+And it works!
 
 I marked the table above to put it into context and asked codellama about it.
 
