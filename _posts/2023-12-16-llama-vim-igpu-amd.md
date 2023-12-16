@@ -36,13 +36,13 @@ CPU, OpenBLAS optimized inference. Which is not ideal, to say the least.
 > portability and added maintenance.
 
 Long story short, I dug a little deeper and tried to make GPU accelerated
-inference work on my t14s with its integrated AMD graphics card, which is a
+inference work on my t14s with its integrated AMD graphics card, an
 _AMD Ryzen 7 PRO 7840U w/ Radeon 780M Graphics_.
 
-The issue is, that iGPUs are not _officially_ supported by _ROCm_, which is
+The issue is that iGPUs are not _officially_ supported by _ROCm_, which is
 AMD's software platform for GPU computing.
 
-Long story short, it can work with a bit of bending, which
+Long story short, it can work with a bit of bending and glue, which
 [others](https://www.reddit.com/r/LocalLLaMA/comments/170tghx/guide_installing_rocmhip_for_llamacpp_on_linux/)
 also have found out. I will gather results to put numbers on the feeling of "it
 should be better, right?" in a later article.
