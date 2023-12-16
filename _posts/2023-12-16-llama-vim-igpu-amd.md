@@ -118,8 +118,8 @@ not too much else.
 
 The `OVERRIDE_GFX_VERSION` attribute is _hardware specific_ and is needed for
 my graphics card, a `Radeon 780M`, which announces itself as having
-`GFX_VERSION 11.0.3`, which does not have a matching shared library to link
-against. Luckily, overriding the value to the closest available value worked.
+`GFX_VERSION 11.0.3`, which does not have matching library support. Luckily,
+overriding the value to the closest available value worked.
 
 ```bash
 $ ls /opt/rocm/lib/rocblas/library/
