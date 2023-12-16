@@ -281,7 +281,7 @@ Do you understand this table?
 ## tl,dr:
 
 - llm stuff works well on GPUs
-- Computing on GPUs is weird, manufacture and hardware specific
+- Computing on GPUs is weird, manufacturer and hardware specific
 - AMD graphics on recent laptops are not officially supported by AMD for
   non-graphics stuff
 - AMD laptop graphics can work for llm stuff, even if not officially supported
