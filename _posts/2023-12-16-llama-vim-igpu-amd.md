@@ -232,31 +232,31 @@ the pure CPU model. I'll benchmark it against a pure CPU model in another
 article, but I don't expect overwhelming results.
 
 ```text
-                                               Graphics pipe 100.00% │
-─────────────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────
-                                                Event Engine   0.00% │
-                                                                     │
-                                 Vertex Grouper + Tesselator   0.00% │
-                                                                     │
-                                           Texture Addresser   0.00% │
-                                               Texture Cache   0.00% │
-                                                                     │
-                                               Shader Export   0.00% │
-                                 Sequencer Instruction Cache   0.00% │
-                                         Shader Interpolator   0.00% │
-                                      Shader Memory Exchange   0.00% │
-                                                                     │
-                                              Scan Converter   0.00% │
-                                          Primitive Assembly   0.00% │
-                                                                     │
-                                                 Depth Block   0.00% │
-                                                 Color Block   0.00% │
-                                              Clip Rectangle 100.00% │
-                                                                     │
-                                          3439M / 3994M VRAM  86.12% │
-                                           293M / 13866M GTT   2.11% │
-                                  0.80G / 0.80G Memory Clock 100.00% │
-                                  2.70G / 2.70G Shader Clock 100.00% │
+                Graphics pipe 100.00%
+──────────────────────────────────────
+                 Event Engine   0.00%
+
+  Vertex Grouper + Tesselator   0.00%
+
+            Texture Addresser   0.00%
+                Texture Cache   0.00%
+
+                Shader Export   0.00%
+  Sequencer Instruction Cache   0.00%
+          Shader Interpolator   0.00%
+       Shader Memory Exchange   0.00%
+
+               Scan Converter   0.00%
+           Primitive Assembly   0.00%
+
+                  Depth Block   0.00%
+                  Color Block   0.00%
+               Clip Rectangle 100.00%
+
+           3439M / 3994M VRAM  86.12%
+            293M / 13866M GTT   2.11%
+   0.80G / 0.80G Memory Clock 100.00%
+   2.70G / 2.70G Shader Clock 100.00%
 ```
 
 Here's a nice little detail:
