@@ -280,7 +280,7 @@ return {
 
 - Context: vim / neovim configuration
 - lua is more powerful than vimscript
-- Some things are not possible with vimscript
+- Some things are not possible with lua
 - Some things are simpler with vimscript
 - I migrated (most of) my config from vimscript to lua
 - Check it out [here](https://github.com/gierdo/dotfiles/tree/master/.config/nvim)
