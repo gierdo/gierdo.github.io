@@ -49,7 +49,7 @@ Which meant that
 Rewriting all that stuff in a language I've never worked with always sounded
 like too much work. And I've never really looked into lua, to be honest.. But
 recently, I touched lua for the first time, playing around vim
-[neoai](./2023-11-24-llama-vim.md), and it wasn't too bad. So I finally
+[neoai]({% link _posts/2023-11-24-llama-vim.md %}), and it wasn't too bad. So I finally
 continued with it and rewrote my config.
 
 ## Observations
