@@ -230,9 +230,11 @@ in my [previous article]({% link _posts/2023-11-24-llama-vim.md %}).
 While running, we see that the graphics pipe is at 100% and VRAM is
 pretty much full.
 
-The performance of the model is usable, but not fundamentally different from
-the pure CPU model. I'll benchmark it against a pure CPU model in another
-article, but I don't expect overwhelming results.
+The performance of the model is very usable, but not fundamentally different
+from the pure CPU model on smaller prompts. This appears to be different for
+larger context. I'll benchmark it against a pure CPU model in another article,
+but I don't expect overwhelming results. I expect the impact to be a bit larger
+with more VRAM and more handed-over layers.
 
 ```text
                 Graphics pipe 100.00%
@@ -288,4 +290,4 @@ Do you understand this table?
 - AMD graphics on recent laptops are not officially supported by AMD for
   non-graphics stuff
 - AMD laptop graphics can work for llm stuff, even if not officially supported
-- The performance impact is not overwhelming
+- The performance impact is not overwhelming, but noticeable
