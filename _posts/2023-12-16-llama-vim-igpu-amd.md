@@ -16,8 +16,9 @@ tags:
 # Update: Local AI assistant in vim with codellama - now with iGPU accelerated inference
 
 You might have read my initial post about [using a local codellama for a vim
-coding assistant](/_posts/2023-11-24-llama-vim.md). The initial version used pure
-CPU, OpenBLAS optimized inference. Which is not ideal, to say the least.
+coding assistant]({% link _posts/2023-11-24-llama-vim.md %}). The initial
+version used pure CPU, OpenBLAS optimized inference. Which is not ideal, to say
+the least.
 
 
 > The proposed solution only uses CPU vectorization and should (TM) be portable.
@@ -224,7 +225,7 @@ out of memory during inference.
 ### Initial results
 
 Besides the different container, the rest of my setup is basically as described
-in my [previous article](/_posts/2023-11-24-llama-vim.md).
+in my [previous article]({% link _posts/2023-11-24-llama-vim.md %}).
 
 While running, we see that the graphics pipe is at 100% and VRAM is
 pretty much full.
