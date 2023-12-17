@@ -122,13 +122,28 @@ Can you explain this to me?
 
 --------
 
-  Sure! This code defines a higher-order function `withDirection` that takes a `WS m a` value as input and returns another `WS m a` value. The function performs some operations on the environment properties of the document, specifically removing any "bidi" (bidirectional) or "rtl" (right-to-left) elements from the existing properties and then adding them back in if necessary.
+Sure! This code defines a higher-order function `withDirection` that takes a
+`WS m a` value as input and returns another `WS m a` value. The function
+performs some operations on the environment properties of the document,
+specifically removing any "bidi" (bidirectional) or "rtl" (right-to-left)
+elements from the existing properties and then adding them back in if
+necessary.
 
-The code is using the `asks` function to retrieve the current environment properties and a few other variables from the context, such as the direction of the text (`isRTL`) and the styles for the paragraph and text elements (`paraStyle`, `textStyle`). It then filters out any "bidi" or "rtl" elements from the existing properties using a guard expression (the `if` statement) and adds them back in if necessary.
+The code is using the `asks` function to retrieve the current environment
+properties and a few other variables from the context, such as the direction of
+the text (`isRTL`) and the styles for the paragraph and text elements
+(`paraStyle`, `textStyle`). It then filters out any "bidi" or "rtl" elements
+from the existing properties using a guard expression (the `if` statement) and
+adds them back in if necessary.
 
-Finally, the function uses the `local` function to modify the environment properties of the document for the duration of the provided action `x`. The modified environment is then used to run the rest of the code in the context of that new environment.
+Finally, the function uses the `local` function to modify the environment
+properties of the document for the duration of the provided action `x`. The
+modified environment is then used to run the rest of the code in the context of
+that new environment.
 
-So, in short, this function is modifying the bidirectional and right-to-left properties of the document based on a certain condition, which I assume is related to the direction of text flow in the document.
+So, in short, this function is modifying the bidirectional and right-to-left
+properties of the document based on a certain condition, which I assume is
+related to the direction of text flow in the document.
 
 --------
 ```
@@ -163,13 +178,26 @@ Can you explain this to me?
 
 --------
 
-  Certainly! This code defines a function `withDirection` that takes an input value of type `WS m a` and returns a new value of the same type. The function modifies the environment in which the input value is evaluated, by adding or removing certain properties (represented as XML elements) from the `envParaProperties` and `envTextProperties` fields of the environment.
+Certainly! This code defines a function `withDirection` that takes an input
+value of type `WS m a` and returns a new value of the same type. The function
+modifies the environment in which the input value is evaluated, by adding or
+removing certain properties (represented as XML elements) from the
+`envParaProperties` and `envTextProperties` fields of the environment.
 
-The function first checks whether the environment indicates that we are going right-to-left (`isRTL`). If so, it adds the properties back to the environment. If not, it simply removes them from the environment.
+The function first checks whether the environment indicates that we are going
+right-to-left (`isRTL`). If so, it adds the properties back to the environment.
+If not, it simply removes them from the environment.
 
-The function then modifies the `envParaProperties` and `envTextProperties` fields by filtering out certain elements from their lists of properties (represented as XML nodes) and adding a new node for the right-to-left property if we are going right-to-left. The `styleElement` function is used to create an element representing the style of the text or paragraph, which is then added to the list of properties.
+The function then modifies the `envParaProperties` and `envTextProperties`
+fields by filtering out certain elements from their lists of properties
+(represented as XML nodes) and adding a new node for the right-to-left property
+if we are going right-to-left. The `styleElement` function is used to create an
+element representing the style of the text or paragraph, which is then added to
+the list of properties.
 
-The resulting modified environment is then used to evaluate the input value using the `local` function, which creates a new environment that contains the modified values.
+The resulting modified environment is then used to evaluate the input value
+using the `local` function, which creates a new environment that contains the
+modified values.
 
 --------
 ```
@@ -219,21 +247,74 @@ Can you explain this to me?
 
 --------
 
-  Sure, I'd be happy to help! This looks like a function that takes a `WS` monad as input and returns the same `WS` monad with some additional properties. Here are my interpretations of each part:
+Sure, I'd be happy to help! This looks like a function that takes a `WS` monad
+as input and returns the same `WS` monad with some additional properties. Here
+are my interpretations of each part:
 
-1. `withDirection x = do`: This line defines a new function called `withDirection` that takes an argument `x` and returns a `WS` monad. The `do` keyword is used to introduce a block of code in which the `WS` monad can be transformed.
-2. `isRTL <- asks envRTL`: This line uses the `asks` function from the `ReaderT` monad transformer to extract the value of the `envRTL` field from the environment. The `asks` function takes a function that extracts a value from the environment, and returns a new `ReaderT` computation that applies the given function to the current environment and returns the result. In this case, `envRTL` is a function that extracts the value of the `rtl` field from the environment, so `asks envRTL` will return the value of the `rtl` field.
-3. `paraProps <- asks envParaProperties`: This line uses the same pattern as the previous line to extract the value of the `envParaProperties` field from the environment. The result is a new `WS` monad that returns the value of `envParaProperties`.
-4. `textProps <- asks envTextProperties`: Similarly, this line extracts the value of the `envTextProperties` field from the environment using the same pattern as before.
-5. `let paraProps' = filter (\e -> (qName . elName) e /= "bidi") (otherElements paraProps)`: This line defines a new variable called `paraProps'` that is equal to the result of filtering the elements in `paraProps` using a lambda function. The filter function takes an element and returns `True` if the element should be included in the filtered list, or `False` otherwise. In this case, the filter function checks whether the name of the element starts with "bidi", and excludes any elements that do not start with "bidi".
-6. `textProps' = filter (\e -> (qName . elName) e /= "rtl") (otherElements textProps)`: Similarly, this line defines a new variable called `textProps'` that is equal to the result of filtering the elements in `textProps` using the same lambda function as before.
-7. `paraStyle = styleElement paraProps`: This line defines a new variable called `paraStyle` that is equal to the result of calling the `styleElement` function on `paraProps`. The `styleElement` function takes a list of elements and returns a single element with all the styles applied. In this case, it applies the styles in `paraProps` to the text.
-8. `textStyle = styleElement textProps`: Similarly, this line defines a new variable called `textStyle` that is equal to the result of calling the `styleElement` function on `textProps`. The resulting element contains all the styles from `textProps`, which are applied to the text.
-9. `if isRTL then ... else ...`: This line checks whether the value of `isRTL` is true or false, and executes one of two different blocks of code depending on the result. If `isRTL` is true, then the first block of code is executed, which adds new properties to the environment using the `local` function from the `ReaderT` monad transformer. Specifically, it adds a property called "bidi" and sets its value to the current environment, and also adds a property called "rtl" with an empty list as its value.
-10. If `isRTL` is false, then the second block of code is executed, which removes the properties that were added in the previous step using the `local` function. It does this by creating new variables `paraProps'` and `textProps'` that exclude any elements with names starting with "bidi" or "rtl", respectively.
-11. The final line of code is a call to the `flip` function from the `Control.Functor` module, which takes a function and applies it to its arguments in reverse order. In this case, the function is `local`, and the arguments are `x` (the original input) and a new environment with the updated properties.
+1. `withDirection x = do`: This line defines a new function called
+   `withDirection` that takes an argument `x` and returns a `WS` monad. The
+   `do` keyword is used to introduce a block of code in which the `WS` monad
+   can be transformed.
+2. `isRTL <- asks envRTL`: This line uses the `asks` function from the
+   `ReaderT` monad transformer to extract the value of the `envRTL` field from
+   the environment. The `asks` function takes a function that extracts a value
+   from the environment, and returns a new `ReaderT` computation that applies
+   the given function to the current environment and returns the result. In
+   this case, `envRTL` is a function that extracts the value of the `rtl` field
+   from the environment, so `asks envRTL` will return the value of the `rtl`
+   field.
+3. `paraProps <- asks envParaProperties`: This line uses the same pattern as
+   the previous line to extract the value of the `envParaProperties` field from
+   the environment. The result is a new `WS` monad that returns the value of
+   `envParaProperties`.
+4. `textProps <- asks envTextProperties`: Similarly, this line extracts the
+   value of the `envTextProperties` field from the environment using the same
+   pattern as before.
+5. `let paraProps' = filter (\e -> (qName . elName) e /= "bidi") (otherElements
+   paraProps)`: This line defines a new variable called `paraProps'` that is
+   equal to the result of filtering the elements in `paraProps` using a lambda
+   function. The filter function takes an element and returns `True` if the
+   element should be included in the filtered list, or `False` otherwise. In
+   this case, the filter function checks whether the name of the element starts
+   with "bidi", and excludes any elements that do not start with "bidi".
+6. `textProps' = filter (\e -> (qName . elName) e /= "rtl") (otherElements
+   textProps)`: Similarly, this line defines a new variable called `textProps'`
+   that is equal to the result of filtering the elements in `textProps` using
+   the same lambda function as before.
+7. `paraStyle = styleElement paraProps`: This line defines a new variable
+   called `paraStyle` that is equal to the result of calling the `styleElement`
+   function on `paraProps`. The `styleElement` function takes a list of
+   elements and returns a single element with all the styles applied. In this
+   case, it applies the styles in `paraProps` to the text.
+8. `textStyle = styleElement textProps`: Similarly, this line defines a new
+   variable called `textStyle` that is equal to the result of calling the
+   `styleElement` function on `textProps`. The resulting element contains all
+   the styles from `textProps`, which are applied to the text.
+9. `if isRTL then ... else ...`: This line checks whether the value of `isRTL`
+   is true or false, and executes one of two different blocks of code depending
+   on the result. If `isRTL` is true, then the first block of code is executed,
+   which adds new properties to the environment using the `local` function from
+   the `ReaderT` monad transformer. Specifically, it adds a property called
+   "bidi" and sets its value to the current environment, and also adds a
+   property called "rtl" with an empty list as its value.
+10. If `isRTL` is false, then the second block of code is executed, which
+    removes the properties that were added in the previous step using the
+    `local` function. It does this by creating new variables `paraProps'` and
+    `textProps'` that exclude any elements with names starting with "bidi" or
+    "rtl", respectively.
+11. The final line of code is a call to the `flip` function from the
+    `Control.Functor` module, which takes a function and applies it to its
+    arguments in reverse order. In this case, the function is `local`, and the
+    arguments are `x` (the original input) and a new environment with the
+    updated properties.
 
-In summary, the `withDirection` function takes an input `WS` monad and returns a new `WS` monad that contains the same elements as the original, but with additional properties depending on whether the text is going right-to-left or not. If the text is going right-to-left, it adds a "bidi" property to the environment with an empty list as its value, and also adds a "rtl" property with an empty list as its value. Otherwise, it removes these properties from the environment using `local`.
+In summary, the `withDirection` function takes an input `WS` monad and returns
+a new `WS` monad that contains the same elements as the original, but with
+additional properties depending on whether the text is going right-to-left or
+not. If the text is going right-to-left, it adds a "bidi" property to the
+environment with an empty list as its value, and also adds a "rtl" property
+with an empty list as its value. Otherwise, it removes these properties from
+the environment using `local`.
 
 --------
 ```
@@ -272,11 +353,21 @@ Can you explain this to me?
 
 --------
 
-  Sure, I'd be happy to help! This code appears to be related to the `pandoc` library for working with Markdown and other document formats. It looks like it is defining a function called `withDirection` that takes a `WS m a` monad and returns another `WS m a` monad.
+Sure, I'd be happy to help! This code appears to be related to the `pandoc`
+library for working with Markdown and other document formats. It looks like it
+is defining a function called `withDirection` that takes a `WS m a` monad and
+returns another `WS m a` monad.
 
-The function seems to be concerned with handling bidirectional (bidi) and right-to-left (rtl) text in a document, and it appears to modify the properties of paragraphs and text elements within those paragraphs as needed. The code uses some Pandoc-specific data types and functions, such as `EnvProps`, `otherElements`, and `styleElement`, which I'm not familiar with.
+The function seems to be concerned with handling bidirectional (bidi) and
+right-to-left (rtl) text in a document, and it appears to modify the properties
+of paragraphs and text elements within those paragraphs as needed. The code
+uses some Pandoc-specific data types and functions, such as `EnvProps`,
+`otherElements`, and `styleElement`, which I'm not familiar with.
 
-Without more context or information about what this function is intended to do, it's difficult for me to provide a more detailed explanation of its purpose or behavior. If you have any questions or need further clarification, please feel free to ask!
+Without more context or information about what this function is intended to do,
+it's difficult for me to provide a more detailed explanation of its purpose or
+behavior. If you have any questions or need further clarification, please feel
+free to ask!
 
 --------
 ```
