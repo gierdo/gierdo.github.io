@@ -20,7 +20,6 @@ coding assistant]({% link _posts/2023-11-24-llama-vim.md %}). The initial
 version used pure CPU, OpenBLAS optimized inference. Which is not ideal, to say
 the least.
 
-
 > The proposed solution only uses CPU vectorization and should (TM) be portable.
 > I don't have a machine with a GPU capable of doing shiny Cuda/hipBLAS/ROCm
 > acceleration. This means that the performance is OK(ish) for one single
