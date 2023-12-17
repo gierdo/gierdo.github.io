@@ -44,8 +44,10 @@ AMD's software platform for GPU computing.
 
 Long story short, it can work with a bit of bending and glue, which
 [others](https://www.reddit.com/r/LocalLLaMA/comments/170tghx/guide_installing_rocmhip_for_llamacpp_on_linux/)
-also have found out. I will gather results to put numbers on the feeling of "it
-should be better, right?" in a later article.
+and [probably many
+more](https://medium.com/@rafaelmanzanom/ditching-cuda-for-amd-rocm-for-more-accessible-llm-inference-ryzen-apus-edition-92c3649f8f7d)
+also have figured out. Information is scattered around, but most of the time
+the described setups are pretty unrepeatable.
 
 I tried to make a kind of compromise between the specific hardware dependent
 setup and a generic solution, using a fully containerized setup with hardware
