@@ -275,6 +275,10 @@ llama_print_timings:        eval time =   23413.66 ms /   295 runs   (   79.37 m
 llama_print_timings:       total time =   26681.01 ms
 ```
 
+##### Resource consumption
+
+No CPU is involved whatsoever, but the fans have to spin up to cool the GPU.
+
 ### codellama-13b-instruct
 
 The second set uses the 13b parameters model of codellama in the `Q4_K_M`
