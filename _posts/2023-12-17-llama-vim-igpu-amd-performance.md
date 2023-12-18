@@ -224,6 +224,57 @@ Memory (total): 5.1G
 VRAM: N/A
 ```
 
+#### Bonus round: With AC power (non-powersave GPU profile)
+
+As stated in the environment section, I want to explicitly compare the mobile
+usecase with  powersaving profiles enabled.
+
+Switchint off powersaving configurations and enabling the full power of the GPU
+gives a huge performance improvement, especially on the pure GPU inference:
+
+##### Answer
+
+```text
+Can you explain this to me?
+
+--------
+
+Certainly! The `withDirection` function is a higher-order function that takes
+an `WS` monad and returns an equivalent `WS` monad that has been modified to
+handle bidirectional (bidi) and right-to-left (rtl) text properties.
+
+Here's what the code does:
+
+1. It checks if we are in a right-to-left context (isRTL).
+2. If so, it cleans up any existing bidi or rtl properties by filtering them
+   out of the `paraProps` and `textProps`.
+3. It creates new sets of properties with the bidi/rtl flags removed from the
+   previous `paraProps'` and `textProps'`.
+4. It creates a new set of properties that includes only the style elements
+   (e.g., paragraph or text styles) for the given context, using the
+   `styleElement` function.
+5. Finally, it modifies the original `WS` monad to add the new bidi and rtl
+   properties, either by adding them to the existing set of properties or
+   replacing any existing ones with the new ones.
+
+The purpose of this function is to ensure that bidi and rtl properties are
+properly managed when creating Word documents. By cleaning up existing
+properties before adding new ones, we avoid having multiple instances of these
+flags stack up and cause errors in the final document.
+
+--------
+```
+
+##### Performance
+
+```text
+llama_print_timings:        load time =    1295.59 ms
+llama_print_timings:      sample time =     100.39 ms /   296 runs   (    0.34 ms per token,  2948.50 tokens per second)
+llama_print_timings: prompt eval time =    1295.30 ms /   380 tokens (    3.41 ms per token,   293.37 tokens per second)
+llama_print_timings:        eval time =   23413.66 ms /   295 runs   (   79.37 ms per token,    12.60 tokens per second)
+llama_print_timings:       total time =   26681.01 ms
+```
+
 ### codellama-13b-instruct
 
 The second set uses the 13b parameters model of codellama in the `Q4_K_M`
@@ -406,6 +457,8 @@ VRAM: N/A
 - GPU inference with the 7b model is 2.2 times quicker (3.9 t/s vs 1.71 t/s) on
   _my_ setup. This is mainly due to the fact that only the 7b model can fully
   run on the GPU, the 13b model has to run on CPU and GPU
+- GPU inference without powersaving configuration is veeery fast (12.6 t/s vs
+  3.9 t/s)
 
 I will most likely run with the _7b model_ on full GPU. The benefits of the
 quickest inference, combined with silence and battery consumption outweigh the
