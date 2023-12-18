@@ -229,7 +229,7 @@ VRAM: N/A
 As stated in the environment section, I want to explicitly compare the mobile
 usecase with  powersaving profiles enabled.
 
-Switchint off powersaving configurations and enabling the full power of the GPU
+Switching off powersaving configurations and enabling the full power of the GPU
 gives a huge performance improvement, especially on the pure GPU inference:
 
 ##### Answer
