@@ -169,7 +169,14 @@ Dec 28 11:57:22 t14s systemd[2093]: llama.service: Main process exited, code=exi
 
 Not ideal, and a blocker for the rest of the tasks.
 
-### mistral
+#### Verdict
+
+Codellama hints good understanding of the tech stack that is requested. There
+are two important, somewhat peripheral limitations, though. In my
+configuration, it does not make ideal use of the available resources, and, more
+importantly, it doesn't fully "understand" the given task.
+
+### Mistral
 
 ```` text
 Please create a c function for an embedded platform (no stl or time.h, no
@@ -337,8 +344,12 @@ memory usage.
 --------
 ````
 
-Mistral seems to fully understand the given task and solves it as requested.
+#### Verdict
 
+Mistral seems to fully understand the given task and solves it as requested.
+The answer is pretty much spot on. Probably. I haven't tested it or fully
+thought through it, to be honest.
+But it is good enough as a starting point and get the process going.
 
 ## General non-coding tasks
 
