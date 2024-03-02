@@ -27,7 +27,7 @@ With these requirements, I created a single stage `Dockerfile`, resulting in a
 quite large container image, and stopped right there. It worked, after all.
 
 ```bash
-podman inspect -f "{{ .Size }}" ghcr.io/gierdo/dotfiles/llama-cpp-python-server-rocm:0.2.44-6.0.2-11.0.2 | numfmt --to=si
+podman inspect -f "\{\{ .Size \}\}" ghcr.io/gierdo/dotfiles/llama-cpp-python-server-rocm:0.2.44-6.0.2-11.0.2 | numfmt --to=si
 23G
 ```
 
@@ -95,7 +95,7 @@ libraries just because you changed the version of a python package to be
 installed, after all.
 
 ```bash
-podman inspect -f "{{ .Size }}" ghcr.io/gierdo/dotfiles/llama-cpp-python-server-rocm:0.2.54-6.0.2-11.0.2 | numfmt --to=si
+podman inspect -f "\{\{ .Size \}\}" ghcr.io/gierdo/dotfiles/llama-cpp-python-server-rocm:0.2.54-6.0.2-11.0.2 | numfmt --to=si
 15G
 ```
 
