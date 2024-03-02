@@ -102,8 +102,6 @@ podman inspect -f "{{ .Size }}" ghcr.io/gierdo/dotfiles/llama-cpp-python-server-
 ```Dockerfile
 FROM ubuntu:jammy AS rocm_base
 
-LABEL maintainer="Dominikus Gierlach <dominik.gierlach@gmail.com>"
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
   ca-certificates \
   wget \
@@ -147,6 +145,8 @@ ARG LLAMA_CPP_VERSION=0.2.54
 RUN CC=hipcc CXX=hipcc CMAKE_ARGS="-DLLAMA_HIPBLAS=on" pip install --user llama-cpp-python[server]==${LLAMA_CPP_VERSION}
 
 FROM runtime_base AS final
+LABEL maintainer="Dominikus Gierlach <dominik.gierlach@gmail.com>"
+
 ARG OVERRIDE_GFX_VERSION=11.0.2
 ENV HSA_OVERRIDE_GFX_VERSION=${OVERRIDE_GFX_VERSION}
 
