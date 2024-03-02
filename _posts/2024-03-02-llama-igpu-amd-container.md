@@ -171,11 +171,10 @@ of my time, I think.
 
 ## tl,dr:
 
-In summary, utilizing a multi-stage build approach in your Dockerfile allows
-you to separate your application's build dependencies from its final runtime
-environment, reducing the overall size of your final container image. This
-technique is also beneficial when working with large runtime environments, such
-as ROCm, where runtime dependencies still significantly increase the final
-image size. Organizing your container image layers ensures layer reuse and
-caching during the build process, leading to further efficiency and
-optimization of the build process.
+- Container images should be small
+- Container images with ROCm are large
+- Container images should contain as little unneeded stuff as possible
+- Build time dependencies may not be required at runtime
+- Multistage Dockerfiles can help with that
+- Ordering stages and layers can still allow you to use caching in the build
+  process
