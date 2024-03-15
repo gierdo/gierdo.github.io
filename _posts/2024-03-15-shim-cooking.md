@@ -329,7 +329,8 @@ writing Dockerfiles and working with containers pretty convenient.
 However, system integration is not ideal. Some (most?) of that is by design, a
 container is supposed to be separated from the host system, after all. What if
 I want to just want to isolate a specific tool and specify it in the context of
-a project?
+a project? Especially, if the tool does not have any specific system
+dependencies, but is rather self-contained?
 
 ### Shim managers
 
@@ -365,7 +366,9 @@ As the [README](https://github.com/asdf-vm/asdf) of `asdf` states:
 In come _shim managers_! These programs manage the installation of _other_
 programs, capable of updating them, installing and activating different
 versions of the desired program and (ideally) integrating seamlessly with the
-rest of the environment and ecosystem.
+rest of the environment and ecosystem. This only works, of course, if the
+managed program does not have any specific system dependencies, e.g. specific
+shared libraries etc.
 
 There are _language specific_ managers, e.g. for _python_ there is
 [`pyenv`](https://github.com/pyenv/pyenv), which integrates very nicely with
