@@ -1,6 +1,6 @@
 ---
-title: Prepare up your local environment with `pyenv` and `mise-en-place`
-date: 2024-03-14 21:29
+title: Cook your local environment with `mise-en-place`. And others.
+date: 2024-03-15 21:29
 categories:
   - programming
   - linux
@@ -332,3 +332,113 @@ I want to just want to isolate a specific tool and specify it in the context of
 a project?
 
 ### Shim managers
+
+As the [README](https://github.com/asdf-vm/asdf) of `asdf` states:
+
+> Once upon a time there was a programming language
+> There were many versions of it
+> So people wrote a version manager for it
+> To switch between versions for projects
+> Different, old, new.
+>
+> Then there came more programming languages
+> So there came more version managers
+> And many commands for them
+>
+> I installed a lot of them
+> I learnt a lot of commands
+>
+> Then I said, just one more version manager
+> Which I will write instead
+>
+> So, there came another version manager
+> asdf version manager - https://github.com/asdf-vm/asdf
+>
+> A version manager so extendable
+> for which anyone can create a plugin
+> To support their favourite language
+> No more installing more version managers
+> Or learning more commands
+
+#### Basics
+
+In come _shim managers_! These programs manage the installation of _other_
+programs, capable of updating them, installing and activating different
+versions of the desired program and (ideally) integrating seamlessly with the
+rest of the environment and ecosystem.
+
+There are _language specific_ managers, e.g. for _python_ there is
+[`pyenv`](https://github.com/pyenv/pyenv), which integrates very nicely with
+e.g. `poetry` and general python virtual environments. _Rust_ has it's own
+installer and toolchain manager, [`rustup`](https://rustup.rs/), which is also
+capable of managing different versions of _rust_.
+
+Even more powerful are general purpose shim managers like
+[`asdf`](https://fig.io/manual/asdf/shim) and, written in rust, more modern and
+compatible with `asdf`, [`mise-en-place`](https://mise.jdx.dev/).
+
+`mise` has a rich ecosystem of plugins, which allows it to manage versions of a
+plethora of programs. These can be activated on a system level, temporary shell
+level or in the context of (project) directories.
+
+This could be a system level configuration at `~/.config/mise/config.toml`, or
+a specific project configuration in `~/workspace/foo/.mise.toml`
+
+```toml
+[tools]
+go = "1.22.0"
+node = "21.6.1"
+java = "adoptopenjdk-21.0.2+13.0.LTS"
+ruby = "3.3.0"
+awscli = "2.15.19"
+direnv = "2.34.0"
+```
+
+`mise` makes sure that, in the respective context, the specified version of the
+specified tools are configured and take precedence in the `$PATH`.
+
+#### My caveat
+
+I have been using `pyenv`, `asdf` and `rustup` for a long time, recently
+replacing `asdf` with `mise`. Obviously, `pyenv` and `rustup` are only used to
+manage `python` and `rust`.
+
+I have replaced `asdf` with `mise`, as it's much faster, more actively
+maintained and maintainable at all. While `asdf` is very impressive, it's
+written in `bash`(!), and I'm almost sure that the authors regularly curse
+their choice. `mise` is compatible with `asdf`, but extends its functionality.
+And it works great!
+
+```bash
+$ java --version
+openjdk 21.0.2 2024-01-16 LTS
+OpenJDK Runtime Environment Temurin-21.0.2+13 (build 21.0.2+13-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.2+13 (build 21.0.2+13-LTS, mixed mode, sharing)
+$ mise shell java@corretto-21.0.2.14.1
+mise java@corretto-21.0.2.14.1 downloading amazon-corretto-21.0.2.1 72.68 MiB/199.70 MiB (14s) ███████░░░░░░░░░░░░░  7s
+.
+.
+.
+$ java --version
+openjdk 21.0.2 2024-01-16 LTS
+OpenJDK Runtime Environment Corretto-21.0.2.14.1 (build 21.0.2+14-LTS)
+OpenJDK 64-Bit Server VM Corretto-21.0.2.14.1 (build 21.0.2+14-LTS, mixed mode, sharing)
+$ mise use java@corretto-21.0.2.14.1 -p ./
+mise ./.mise.toml tools: java@corretto-21.0.2.14.1
+$ cat .mise.toml
+[tools]
+java = "corretto-21.0.2.14.1"
+```
+
+Integration is absolutely seamless, once it's set up correctly.
+
+If you are interested in the setup, check the (linked) documentation, or take a
+look at my [dotfiles](https://github.com/gierdo/dotfiles) :)
+
+## tl;dr
+
+- It's good to have different versions of programs
+- It's hard to manage different versions of programs
+- Different ways of managing this have different (dis)advantages
+- Containers are not too bad sometimes
+- Shim managers are also not too bad sometimes
