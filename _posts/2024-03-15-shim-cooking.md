@@ -328,8 +328,8 @@ writing Dockerfiles and working with containers pretty convenient.
 
 However, system integration is not ideal. Some (most?) of that is by design, a
 container is supposed to be separated from the host system, after all. What if
-I want to just want to isolate a specific tool and specify it in the context of
-a project? Especially, if the tool does not have any specific system
+I just want to isolate a specific tool and specify it in the context of a
+project? Especially, if the tool does not have any specific system
 dependencies, but is rather self-contained?
 
 ### Shim managers
