@@ -9,6 +9,8 @@ tags:
   - environment
 ---
 
+# How and why to set up automated environment secret stuff
+
 ## The Problem
 
 When working on several projects in different environments, interacting with
