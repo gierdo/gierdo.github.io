@@ -156,6 +156,61 @@ source ~/workspace/github.com/.envrc
 export AWS_PROFILE=PROJECT_GROUP_2_AWS
 ```
 
+## Bonus: Setup git credential integration with `gnome-keyring`
+
+As written above, `gnome-keyring` can also store `git` credentials, when using
+_https_ authentication. While this is somewhat orthogonal to setting up shell
+environments with secrets, it's connected and important.
+
+`git` can use [_credential helpers_](https://git-scm.com/docs/gitcredentials)
+to store and automagically use credentials for different repositories. The
+trivial and built-in _credential helper_ is `store`, which simply stores the
+credentials on disk in _clear text_, so let's not go down that path.
+
+The _credential helper_ to integrate with `gnome-keyring` on linux is
+`git-credential-libsecret`.
+
+### Install `git-credential-libsecret`
+
+On Debian based systems, including Ubuntu, the credential helper is not
+available as compiled binary, but the sourcecode is part of the `git` package.
+
+Install it e.g. like this:
+
+```bash
+sudo apt-get install libsecret-1-dev
+mkdir -p ~/workspace/other/libsecret
+cd ~/workspace/other/libsecret
+cp -r /usr/share/doc/git/contrib/credential/libsecret/* ./
+make
+mkdir -p ~/.local/bin
+cp git-credential-libsecret ~/.local/bin
+```
+
+### Set up `git-credential-libsecret`
+
+After it has been installed, let's make git use it.
+
+```bash
+git config --global credential.helper libsecret
+```
+
+### Automatic setup with dotfiles and tuning
+
+Yes, that was annoyingly complex, especially for a thing that should not be
+forgotten whenever a new machine is set up.
+
+That's why I integrated the setup into my
+[dotfiles.](https://github.com/gierdo/dotfiles)
+I don't want to have to remember (= look up and re-understand) how to set it up
+whenever I set up a new machine, and I don't want to forget to set it up at
+all.
+
+The git configuration is part of the [global
+`.gitconfig`](https://github.com/gierdo/dotfiles/blob/c8877582a3f8fce10e5c78f4e9dc70b8e6a6e9fc/.gitconfig#L31),
+installation is automated through
+[tuning](https://github.com/gierdo/dotfiles/blob/c8877582a3f8fce10e5c78f4e9dc70b8e6a6e9fc/tuning/programs.toml#L175).
+
 ## tl;dr
 
 - Sometimes secrets are needed in (shell based) environments, to be set up as
