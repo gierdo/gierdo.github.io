@@ -108,7 +108,7 @@ For example, I want to have a gitlab API token in all my repositories for
 
 ```bash
 export GITLAB_TOKEN=$(secret-tool lookup protocol https server private-gitlab.com user <bob@secret.com>)
-export GITLAB_URI="<https://private-gitlab.com>"
+export GITLAB_URI="https://private-gitlab.com"
 export GITHUB_TOKEN=$(secret-tool lookup protocol https server github.com user <dominik.gierlach@gmail.com>)
 ```
 
