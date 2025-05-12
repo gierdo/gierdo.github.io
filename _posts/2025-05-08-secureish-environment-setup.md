@@ -148,7 +148,7 @@ Assume a directory structure like this
 
 I want to be able to use the environment configuration that is part of
 `~/workspace/github.com/.envrc` in every project, but I want to change/extend it
-for all projects in `~/workspace/github.com/project_group_1`.
+for all projects in `~/workspace/github.com/project_group_2`.
 
 That is possible by referring to the overarching `.envrc` from
 `~/workspace/github.com/project_group_1/.envrc`:
