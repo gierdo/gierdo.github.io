@@ -193,7 +193,7 @@ to make sure that
 - Access permissions allow the device to be used in the container
 
 ```bash
-$ podman run --annotation run.oci.keep_original_groups=1 -v ${HOME}/.local/lib/llama/models:/models --device /dev/kfd --device /dev/dri --rm -it ghcr.io/gierdo/dotfiles/llama-cpp-python-server-rocm:0.2.20-11.0.2
+podman run --annotation run.oci.keep_original_groups=1 -v ${HOME}/.local/lib/llama/models:/models --device /dev/kfd --device /dev/dri --rm -it ghcr.io/gierdo/dotfiles/llama-cpp-python-server-rocm:0.2.20-11.0.2
 ```
 
 Using the systemd podman integration, this leads to the following systemd user
@@ -265,7 +265,6 @@ And it works!
 
 I marked the table above to put it into context and asked codellama about it.
 
-
 ```text
 Do you understand this table?
 
@@ -280,7 +279,7 @@ Do you understand this table?
 --------
 ```
 
-## tl,dr:
+## tl;dr
 
 - llm stuff works well on GPUs
 - Computing on GPUs is weird, manufacturer and hardware specific

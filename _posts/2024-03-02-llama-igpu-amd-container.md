@@ -169,7 +169,7 @@ probably walk through them and just identify the stuff that is strictly
 required. But losing _8Gb_ of image size, basically for free, is a better use
 of my time, I think.
 
-## tl,dr:
+## tl;dr
 
 - Container images should be small
 - Container images with ROCm are large
