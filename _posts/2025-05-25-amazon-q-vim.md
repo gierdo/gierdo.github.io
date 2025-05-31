@@ -5,6 +5,8 @@ categories:
   - linux
 tags:
   - vim
+  - amazon
+  - aws
   - ai
   - Q
 ---
