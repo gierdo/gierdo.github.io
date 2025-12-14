@@ -47,7 +47,7 @@ There is a new generation of `python` language servers, written in `Rust`,
 targeting high performance and productivity in large and complex code bases:
 
 There is Astral's [`ty`](https://docs.astral.sh/ty/), Meta's
-[`pyrefly`](https://pyrefly.org/) and David Halter's (Jedi's original authoer)
+[`pyrefly`](https://pyrefly.org/) and David Halter's (Jedi's original author)
 [`zuban`](https://zubanls.com), and probably some more.
 
 I have been intrigued by them, mainly hoping for a smoother and more performant
