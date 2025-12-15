@@ -51,9 +51,9 @@ There is Astral's [`ty`](https://docs.astral.sh/ty/), Meta's
 [`zuban`](https://zubanls.com), and probably some more.
 
 I have been intrigued by them, mainly hoping for a smoother and more performant
-workflow in large codebases. So, I have played around with them for a while
-now, eventually ending up using `ty` only for type checking while still having
-to rely on `basedpyright` for completion, auto-import, symbol renaming,
+workflow in large and growing codebases. So, I have played around with them for
+a while now, eventually ending up using `ty` only for type checking while still
+having to rely on `basedpyright` for completion, auto-import, symbol renaming,
 navigation etc.
 
 _Why?_
@@ -96,14 +96,15 @@ the lsp server to not provide the functionality, the _client_ ignores it!
 
 ## The Problem
 
-I like working with Python, also with larger code bases. There are LSP servers
-that offer excellent performance. However, none match the full functionality of
-`basedpyright` when used independently. Unfortunately, `basedpyright` lacks in
-performance. Combining multiple LSP servers introduces duplicate functionality
-and a bit of a mess. Such combination could be feasible if we could selectively
-disable or enable conflicting capabilities. However, it is not possible to
-instruct LSP servers to withhold certain functionalities unless they provide an
-interface for that, e.g. with dedicated configuration options.
+I like working with Python, also with larger and growing code bases. There are
+LSP servers that offer excellent performance. However, none match the full
+functionality of `basedpyright` when used independently. Unfortunately,
+`basedpyright` lacks in performance. Combining multiple LSP servers introduces
+duplicate functionality and a bit of a mess. Such combination could be feasible
+if we could selectively disable or enable conflicting capabilities. However, it
+is not possible to instruct LSP servers to withhold certain functionalities
+unless they provide an interface for that, e.g. with dedicated configuration
+options.
 
 ## The solution
 
@@ -129,6 +130,7 @@ general thing.
     client.server_capabilities.signatureHelpProvider = false
     client.server_capabilities.hoverProvider = false
     client.server_capabilities.referencesProvider = false
+    client.server_capabilities.codeActionProvider = false
   end
   vim.lsp.config("ty", {
     capabilities = lsp_capabilities,
