@@ -20,7 +20,7 @@ most of my file edititing / programming / note-taking / ... I use [vim
 (neovim)](https://neovim.io).
 
 Not a bare-bones neovim, though. I use many plugins, and I have even more of
-the set up. Too many? Maybe. Probably. Especially considering the ever growing
+them set up. Too many? Maybe. Probably. Especially considering the ever growing
 number of software supply chain attacks..
 
 Anyways, that is a different topic for a different day.
