@@ -15,6 +15,10 @@ tags:
 
 # LSP mix and match - cherry-pick capabilities from different LSP servers
 
+> Note: Recently, `pyrefly` has gained the capabilities that were missing for
+> me to be able to fully switch to it as sole lsp. My current setup doesn't
+> make use of cherry-picking LSP capabilities anymore.
+
 As I have written about [here]({% link _posts/2024-09-19-nvim-lsp.md %}), for
 most of my file edititing / programming / note-taking / ... I use [vim
 (neovim)](https://neovim.io).
