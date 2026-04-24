@@ -69,7 +69,7 @@ A while ago, `kiro-cli` added support for _ACP_ 🥳!
 No more reason not to try it out.
 
 After a bit of research, I decided to use
-[_codecompantion_](https://codecompanion.olimorris.dev/) to replace `sidekick`
+[_codecompanion_](https://codecompanion.olimorris.dev/) to replace `sidekick`
 for the AI integration.
 
 The full configuration can be found
