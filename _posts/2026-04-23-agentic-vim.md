@@ -118,20 +118,14 @@ I had the following `sidekick` keybindings:
 For `codecompanion`, the same can be achieved with these keybindings:
 
 ```lua
-    keys = {
-      {
-        "<A-a>",
-        "<cmd>CodeCompanionChat Toggle<cr>",
-        desc = "CodeCompanion Toggle",
-        mode = { "n", "t", "i", "x" },
-      },
-      {
+      vim.keymap.set({ "n", "t", "i" }, "<A-a>", "<cmd>CodeCompanionChat Toggle<cr>", { desc = "CodeCompanion Toggle" })
+      vim.keymap.set({ "x" }, "<A-a>", "<cmd>CodeCompanionChat Add<cr>", { desc = "CodeCompanion add selection" })
+      vim.keymap.set(
+        { "n", "t", "i", "x" },
         "<A-i>",
         "<cmd>CodeCompanionActions<cr>",
-        desc = "CodeCompanion Actions",
-        mode = { "n", "t", "i", "x" },
-      },
-    },
+        { desc = "CodeCompanion Actions" }
+      )
 ```
 
 ### Buffer guard
