@@ -56,6 +56,8 @@ and create error prone workflows that need manual cleanup.
 
 ## Solution
 
+[![asciicast](https://asciinema.org/a/1261378.svg)](https://asciinema.org/a/1261378)
+
 `git worktree`!
 
 Manage multiple working trees attached to the same repository.
