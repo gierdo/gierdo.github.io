@@ -11,7 +11,7 @@ tags:
 
 Since about the first year of my studies I've been using `git`. I manage and
 version my personal documents, letters, system configuration, notes, tax
-declaration (oioi, I should really finish last years taxes soon..), basically
+declaration (oioi, I should really finish last year's taxes soon..), basically
 my digital life with `git`, using a little server with `gitolite` as
 home-local server and synchronization point where needed.
 
