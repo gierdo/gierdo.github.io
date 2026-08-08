@@ -9,8 +9,6 @@ tags:
   - python
 ---
 
-# AI: Let your agent drive neovim
-
 <script src="https://asciinema.org/a/1262569.js" id="asciicast-1262569" async="true"></script>
 
 In my [previous post about agentic vim]({% link
