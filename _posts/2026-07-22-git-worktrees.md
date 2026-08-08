@@ -56,7 +56,7 @@ and create error prone workflows that need manual cleanup.
 
 ## Solution
 
-[![asciicast](https://asciinema.org/a/1261378.svg)](https://asciinema.org/a/1261378)
+<script src="https://asciinema.org/a/1261378.js" id="asciicast-1261378" async="true"></script>
 
 `git worktree`!
 
