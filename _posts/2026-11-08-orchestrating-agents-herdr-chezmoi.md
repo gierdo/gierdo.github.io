@@ -14,7 +14,7 @@ tags:
 In my [earlier post on agentic vim]({% link _posts/2026-04-23-agentic-vim.md
 %}), I explored integrating AI agents directly into Neovim using the Agent
 Client Protocol (ACP) and `codecompanion`. Then, in [let your agent drive
-neovim]({% link_posts/2026-08-08-nvim-editor-mcp.md %}), I flipped the
+neovim]({% link _posts/2026-08-08-nvim-editor-mcp.md %}), I flipped the
 direction: using [`nvim-editor-mcp`](https://github.com/gierdo/nvim-editor-mcp)
 to let external agents drive my running editor session over RPC, inspecting
 buffers, populating quickfix lists, and reading diagnostics. Combined with [git
