@@ -139,7 +139,8 @@ single agent harness?
 Because I have different harnesses in different environments with different
 conditions. At work, enterprise environments and access policies require
 `kiro-cli` and `codex`. For personal use and open exploration, I prefer
-`antigravity` (Gemini) and `opencode`.
+`antigravity` (Gemini) and `opencode`. Not necessarily because they are better,
+but I have economically interesting access 😉.
 
 Each harness expects its own configuration folder, distinct system instruction
 filenames, and separate skill locations. But my core workflows - how git
