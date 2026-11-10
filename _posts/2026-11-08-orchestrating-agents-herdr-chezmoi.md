@@ -31,14 +31,16 @@ multiple agents acting in concert: a lead agent planning architecture,
 sub-agents writing code in isolated git worktrees, and background jobs running
 builds and test suites.
 
-To make this practical, the setup needed three things:
+To make this practical, the setup needed four things:
 
-1. A terminal environment built for persistent, long-running agentic tasks and
-   multi-agent coordination.
-2. A single source of truth for agent skills and steering instructions,
+1. A terminal environment built on persistent sessions and multi-client flexibility,
+   where terminal windows are decoupled views into long-running tasks.
+2. Active agent lifecycle awareness and programmatic orchestration for multi-agent
+   coordination.
+3. A single source of truth for agent skills and steering instructions,
    independent of whatever agent harness is used (Gemini, Codex, OpenCode, Kiro
    CLI).
-3. Seamless, decoupled editor interaction so agents running across different
+4. Seamless, decoupled editor interaction so agents running across different
    workspaces can still interact with the right Neovim instance without
    cross-talk.
 
@@ -47,6 +49,14 @@ integration of `nvim-editor-mcp`.
 
 ## The Problem
 
+- **Ephemeral sessions and coupled terminal views**: In my previous setup,
+  terminal emulators (`foot`, `kitty`) launched `tmux` directly. While
+  session persistence is not a fundamental limitation of `tmux` per se, the
+  way it was configured treated each terminal window as an ephemeral, isolated
+  session. Closing a window terminated running processes, creating constant
+  friction when running long-lived agentic tasks or test suites. Furthermore,
+  attaching multiple terminals to a single `tmux` session mirrors the active
+  view across all windows by default, making multi-monitor workflows clumsy.
 - **Multiplexer blindness**: Classic multiplexers like `tmux` treat panes as
   dumb byte streams. They cannot tell whether a process in a pane is an idle
   shell, an agent actively writing code, or an agent blocked waiting for user
@@ -65,16 +75,115 @@ integration of `nvim-editor-mcp`.
 
 ## Solution
 
-### 1. Replacing tmux with Herdr for agent orchestration
+### 1. Workflow evolution: persistent sessions and multi-terminal attach
 
-The first change was replacing `tmux` with [`herdr`](https://herdr.dev/) across
-my environment (including switching my terminal configs to launch `herdr`
-directly).
+The first step was rethinking the terminal session model itself.
 
-`herdr` is a terminal multiplexer designed specifically for coding agents. It
-organizes terminals into workspaces, tabs, and panes, but with a critical
-difference: it recognizes coding agents running inside panes and tracks their
-lifecycle states (`idle`, `working`, `blocked`, `done`).
+In my previous workflow, terminal emulators were configured with `shell=tmux`.
+While `tmux` has full support for persistent server sessions and detachment, in
+practice my terminal configuration treated sessions as non-persistent and
+ephemeral: opening a terminal window launched a standalone session, and closing
+the window tore it down. When running autonomous agents that execute multi-step
+refactorings or run test loops that take significant time, this model breaks down.
+An accidental keystroke or window close terminates the agent mid-flight.
+
+[`herdr`](https://herdr.dev/) fundamentally changes this by placing full
+persistency at the core of its architecture:
+
+- **Client-server separation with automatic attach**: Herdr runs as a persistent
+  background daemon (`herdr.sock`). In my terminal configs (`foot.ini` and
+  `kitty.conf`), the shell is set to `shell=herdr`. Launching a new terminal
+  window automatically attaches to the running Herdr session instead of
+  spawning a throwaway environment. If the server is not running yet, it starts
+  seamlessly in the background.
+- **Decoupled multi-terminal views**: With standard `tmux`, having multiple
+  terminal windows attached to the same session causes them to mirror each other:
+  switching windows or scrolling in one terminal forces the same view onto the
+  other. Herdr natively decouples attached clients: **different terminal
+  windows can display different tabs or workspaces simultaneously**. I can have
+  one terminal window on an auxiliary monitor monitoring an agent working in
+  Workspace 1, while another terminal window on my main display is actively
+  navigating code in Workspace 2 or viewing a separate tab.
+- **True persistence across disconnections**: Closing a terminal window (or
+  closing all of them) has zero impact on running processes. Background agent
+  loops, compilation jobs, and Neovim buffers remain untouched and active on the
+  Herdr daemon. Opening a new terminal window immediately brings back the live
+  state.
+
+#### Preserving muscle memory: tmux-compatible keybindings
+
+A major risk when switching multiplexers is fighting ingrained muscle memory.
+To make the transition seamless, Herdr's keybindings in
+`dot_config/herdr/config.toml` are configured to maintain maximum compatibility
+with the previous `tmux` setup:
+
+- **Prefix chord**: The prefix remains `ctrl+b`, keeping `ctrl+h/j/k/l` free for
+  direct navigation.
+- **Splits**: Splitting follows standard tmux bindings - `prefix+%` for vertical
+  splits and `prefix+"` for horizontal splits - combined with `new_cwd = "follow"`
+  so newly split panes automatically inherit the current working directory
+  (matching tmux's `-c "#{pane_current_path}"`).
+- **Tabs**: `prefix+c` creates a new tab, while `prefix+n` and `prefix+p` cycle
+  through tabs.
+- **Workspaces**: Workspace navigation uses fast, direct chords:
+
+```toml
+# --- workspace navigation & management ---
+switch_workspace = "prefix+shift+1..9"
+previous_workspace = "prefix+["
+next_workspace = "prefix+]"
+
+workspace_picker = "prefix+w"
+new_workspace = "prefix+shift+n"
+rename_workspace = "prefix+shift+w"
+close_workspace = "prefix+shift+d"
+```
+
+#### Seamless split and tab navigation in conjunction with Neovim
+
+In my tmux setup, [`smart-splits.nvim`](https://github.com/mrjones2014/smart-splits.nvim)
+allowed fluid directional navigation between tmux panes and Neovim splits.
+Losing that borderless movement was not an option.
+
+In Herdr, this integration is handled by
+[`herdr-splits.nvim`](https://github.com/lmilojevicc/herdr-splits.nvim), paired
+with the `herdr-splits` plugin declared in chezmoi's `.chezmoidata/packages.toml`:
+
+```toml
+[packages.herdr]
+plugins = [
+  "jeffarese/herdr-bar",
+  "lmilojevicc/herdr-splits.nvim",
+  "njs14/herdr-kiro-pulse",
+]
+```
+
+This pairs a Neovim plugin with a Herdr multiplexer plugin to achieve seamless,
+two-way navigation and resizing:
+
+- **Directional navigation (`ctrl+h/j/k/l`)**: When inside Neovim, pressing
+  `ctrl+h/j/k/l` navigates between internal Vim splits. When the cursor reaches
+  the outermost edge of Neovim, the plugin delegates directly to Herdr
+  (`herdr pane focus --direction <dir>`), stepping into the adjacent terminal
+  pane without any mode switch. Conversely, pressing `ctrl+h/j/k/l` in a terminal
+  pane moves between Herdr panes or steps right back into Neovim splits.
+- **Seamless resizing (`alt+h/j/k/l`)**: Resizing works identically across the
+  boundary, resizing Neovim windows natively when multiple splits exist, or
+  resizing the Herdr terminal pane when at the edge.
+
+Combined with tab navigation (`prefix+n`, `prefix+p`) and workspace switching,
+the terminal multiplexer and Neovim behave as a single, coherent canvas.
+
+### 2. Multi-agent orchestration and lifecycle tracking
+
+Beyond persistency and navigation, the primary motivation for switching to Herdr
+was its agent-native architecture.
+
+Classic multiplexers treat panes as dumb byte streams. They cannot distinguish
+an idle shell prompt from an agent writing code or a process blocked on user
+approval. `herdr` organizes terminals into workspaces, tabs, and panes, but with
+a critical difference: it recognizes coding agents running inside panes and
+tracks their lifecycle states (`idle`, `working`, `blocked`, `done`).
 
 Crucially, agents are not left to guess how to drive the multiplexer via ad-hoc
 shell commands. The intended interaction with Herdr is provided to agents
@@ -92,40 +201,12 @@ within higher-level skills:
   refactorings. Rather than running everything sequentially in a single
   process, the workflow orchestrator uses Herdr to delegate sub-tasks: it
   splits a sibling pane, launches a specialized worker or reviewer agent,
-  prompts it, and waits for a settled state before advancing the workflow:
-
-Through chezmoi, `herdr` configuration and keybindings are version-controlled
-in `dot_config/herdr/config.toml`:
-
-```toml
-# --- workspace navigation & management ---
-switch_workspace = "prefix+shift+1..9"
-previous_workspace = "prefix+["
-next_workspace = "prefix+]"
-
-workspace_picker = "prefix+w"
-new_workspace = "prefix+shift+n"
-rename_workspace = "prefix+shift+w"
-close_workspace = "prefix+shift+d"
-```
-
-Herdr plugins are declared in `.chezmoidata/packages.toml` and installed
-automatically via a chezmoi run script
-(`run_onchange_after_09_herdr_plugins.sh.tmpl`):
-
-```toml
-[packages.herdr]
-plugins = [
-  "jeffarese/herdr-bar",
-  "lmilojevicc/herdr-splits.nvim",
-  "njs14/herdr-kiro-pulse",
-]
-```
+  prompts it, and waits for a settled state before advancing the workflow.
 
 This turns the terminal multiplexer into an active coordination layer rather
 than just a passive window splitter.
 
-### 2. Harness-agnostic skills and instructions with chezmoi
+### 3. Harness-agnostic skills and instructions with chezmoi
 
  Having the skills and instructions in the dotfiles repository allows me to
  develop and track them version-controlled and independent from my work
@@ -225,7 +306,7 @@ done
 Now, updating or adding a skill in one place automatically equips all agent
 runners across the system.
 
-### 3. Decoupled editor interaction: nvim-editor-mcp meets Herdr
+### 4. Decoupled editor interaction: nvim-editor-mcp meets Herdr
 
 #### Why nvim-editor-mcp integration?
 
@@ -288,15 +369,20 @@ notifications back into the user's active editor when finished.
 
 ## tl;dr
 
-- Long-running, multi-agent development tasks need persistent multiplexing and
-  process lifecycle awareness that traditional tools like `tmux` do not
-  provide.
-- `herdr` acts as the coordination backbone: managing workspaces, tracking
-  agent states (`idle`, `working`, `blocked`, `done`), and allowing agents to
-  orchestrate sibling panes programmatically.
-- `chezmoi` provides single-source-of-truth management for agent
-  configurations, automatically distributing `AGENTS.md` and skills across
+- **Persistent session workflow**: Moving from an ephemeral, window-tied tmux
+  setup to Herdr makes persistence foundational. New terminals automatically
+  attach to the running daemon, while different windows can independently show
+  different workspaces and tabs without fighting over active views.
+- **Muscle memory parity**: Keybindings stay fully compatible with tmux
+  conventions (`ctrl+b`, splits, tabs), while `herdr-splits.nvim` provides
+  seamless directional navigation (`ctrl+h/j/k/l`) and resizing (`alt+h/j/k/l`)
+  across Neovim and Herdr panes.
+- **Agent lifecycle orchestration**: `herdr` acts as the coordination backbone:
+  managing workspaces, tracking agent states (`idle`, `working`, `blocked`,
+  `done`), and allowing agents to orchestrate sibling panes programmatically.
+- **Single source of truth**: `chezmoi` manages global instructions (`AGENTS.md`)
+  and reusable skills in one place, automatically distributing them across
   Gemini, Codex, OpenCode, and Kiro CLI.
-- `nvim-editor-mcp` pairs with Herdr's session topology to automatically bind
-  agents to the Neovim instance in their current workspace and directory,
-  keeping editor interactions decoupled and conflict-free.
+- **Decoupled editor interaction**: `nvim-editor-mcp` pairs with Herdr's session
+  topology to bind agents to the Neovim instance in their current workspace and
+  directory, keeping editor interactions conflict-free.
