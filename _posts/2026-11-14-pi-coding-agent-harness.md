@@ -14,7 +14,7 @@ tags:
 
 In my previous posts on [orchestrating agents with herdr, chezmoi, and nvim]({% link
 _posts/2026-11-08-orchestrating-agents-herdr-chezmoi.md %}) and [letting your
-agent drive neovim]({% link_posts/2026-08-08-nvim-editor-mcp.md %}), I focused
+agent drive neovim]({% link _posts/2026-08-08-nvim-editor-mcp.md %}), I focused
 on the coordination layer: how persistent terminal sessions, workspace-aware
 RPC, and centralized dotfiles turn separate tools into a coherent multi-agent
 environment.
