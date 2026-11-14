@@ -14,7 +14,7 @@ tags:
 
 In my previous posts on [orchestrating agents with herdr, chezmoi, and nvim]({% link
 _posts/2026-11-08-orchestrating-agents-herdr-chezmoi.md %}) and [letting your
-agent drive neovim]({% link _posts/2026-08-08-nvim-editor-mcp.md %}), I focused
+agent drive neovim]({% link_posts/2026-08-08-nvim-editor-mcp.md %}), I focused
 on the coordination layer: how persistent terminal sessions, workspace-aware
 RPC, and centralized dotfiles turn separate tools into a coherent multi-agent
 environment.
@@ -171,10 +171,10 @@ directly as a harness package from git:
 
 Installed this way, Neovim tools (`open_file`, `set_quickfix`,
 `get_diagnostics`, `nvim_exec_lua`) become native capabilities of the harness.
-Because `nvim-editor-mcp` is topology-aware, it correlates Herdr workspace
-variables (`$HERDR_WORKSPACE_ID`, `$HERDR_TAB_ID`) with Neovim's socket and
-working directory, targeting the correct editor buffer without manual socket
-management.
+The mcp server's capabilities and behaviour sets become configurable and hooked
+into the harness, enabling e.g. automatic connection to the most suitable nvim
+instance on startup, automatic synchronisation of editor content with edits
+through the agent and more.
 
 ### 2. Fully asynchronous multi-agent orchestration with Herdr
 
