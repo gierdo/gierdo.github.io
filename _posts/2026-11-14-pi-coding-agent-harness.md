@@ -124,6 +124,13 @@ Having one consistent terminal interface, behavior set, extensions,
 integrations and keybinding set across diverse backend providers eliminates the
 mental tax of context switching.
 
+## Cat
+
+This has been very dry. To brighten and lighten things up a little, here's an
+exageratedly cute cat:
+
+![Resources](/assets/images/2026-11-14-pi/cat.jpeg)
+
 ## Straightforward Extensibility
 
 Many tools claim extensibility, but in practice they tend to fall into two
