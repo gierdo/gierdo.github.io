@@ -77,7 +77,7 @@ where architectural decisions - tool governance, loop mechanics, and extension
 boundaries - matter as much as the underlying foundation model.
 
 Out of the box, Pi does not provide built-in multi-agent workflows, autonomous
-plan modes, or complex state machines. Instead, it provides:
+plan modes, or anything much really. Instead, it provides:
 
 - A fast, reliable prompt-eval loop with native streaming and token budgeting.
 - A clean terminal UI with interactive and non-interactive (print/JSON/RPC) modes.
