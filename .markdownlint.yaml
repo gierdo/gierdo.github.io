@@ -1,0 +1,8 @@
+# Default markdownlint configuration with specific rules disabled
+default: true
+
+# Line length
+MD013: false
+
+# Spaces inside emphasis markers (e.g. paths with leading underscores like _posts or _data)
+MD037: false
