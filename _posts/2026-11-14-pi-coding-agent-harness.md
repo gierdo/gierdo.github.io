@@ -35,7 +35,7 @@ Here is why Pi has become my primary harness, how its extensibility model
 differs from conventional agent tools, and how the entire configuration is
 managed reproducibly with `chezmoi`.
 
-## (N)vim vs. IDEs <-> Pi vs. Monolithic Harnesses
+## (N)vim vs. IDEs, Pi vs. Monolithic Harnesses
 
 The best way to understand Pi is through an analogy that will feel familiar to
 terminal users:
@@ -66,10 +66,9 @@ extensions, adaptation and configuration themselves dramatically more
 straightforward, transparent, and manageable.
 
 This architectural divergence was recently analyzed in depth by Barbaste et al.
-in [*Harness Engineering: Anatomy, Architecture, and Evolution of Coding Agents
-
-- A Source-Code Study of Eleven Systems*
-(arXiv:2609.00006)](<https://arxiv.org/abs/2609.00006>). Analyzing the source
+in [*Harness Engineering: Anatomy, Architecture, and Evolution of Coding Agents -
+A Source-Code Study of Eleven Systems*
+(arXiv:2609.00006)](https://arxiv.org/abs/2609.00006). Analyzing the source
 code of eleven production agent harnesses (including Claude Code, Codex CLI,
 OpenCode, Aider, and Pi itself), the authors show how the agent harness has
 evolved from a superficial API wrapper into an independent runtime platform
@@ -124,12 +123,12 @@ Having one consistent terminal interface, behavior set, extensions,
 integrations and keybinding set across diverse backend providers eliminates the
 mental tax of context switching.
 
-## Cat
+## Intermission: Cat Tax
 
 This has been very dry. To brighten and lighten things up a little, here's an
 exageratedly cute cat:
 
-![Resources](/assets/images/2026-11-14-pi/cat.jpeg)
+![An exaggeratedly cute cat](/assets/images/2026-11-14-pi/cat.jpeg)
 
 ## Straightforward Extensibility
 
@@ -146,10 +145,9 @@ extremes:
    and heavy packaging pipelines. The extensions themselves quickly turn into
    complex, high-maintenance projects.
 
-The differentiator for Pi is the inherent simplicity of a barebones system
-engineered specifically for customization. Because the core does not impose
-layers of defensive abstraction, the extensions themselves are remarkably
-straightforward and manageable:
+Pi takes a different architectural stance by stripping away defensive
+abstraction layers and exposing runtime internals directly. The resulting
+extensions are remarkably direct, lightweight, and manageable:
 
 - **In-process execution**: Extensions are plain TypeScript modules that run
   directly in-process with zero IPC overhead. They have first-class access to
