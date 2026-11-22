@@ -1,0 +1,35 @@
+<!-- start custom footer snippets -->
+{% if page.mermaid or content contains 'language-mermaid' %}
+<style>
+  .mermaid {
+    text-align: center;
+    margin: 1.5em 0;
+  }
+  .mermaid svg {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  const darkSkins = ["dark", "contrast", "neon", "plum"];
+  const skin = "{{ site.minimal_mistakes_skin | default: 'default' }}";
+  const theme = darkSkins.includes(skin) ? "dark" : "default";
+
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: theme
+  });
+
+  document.querySelectorAll("code.language-mermaid").forEach((codeBlock) => {
+    const container = codeBlock.closest(".highlighter-rouge") || codeBlock.closest("pre") || codeBlock;
+    const div = document.createElement("div");
+    div.className = "mermaid";
+    div.textContent = codeBlock.textContent;
+    container.parentNode.replaceChild(div, container);
+  });
+
+  await mermaid.run();
+</script>
+{% endif %}
+<!-- end custom footer snippets -->
